@@ -1,0 +1,25 @@
+# Chỉ commit index.html + beach-accessories/public/images — loại trừ phần còn lại
+
+beach-accessories/node_modules/
+beach-accessories/.next/
+beach-accessories/src/
+beach-accessories/s2-*.png
+beach-accessories/s3-*.png
+beach-accessories/s4-*.png
+beach-accessories/screenshot*.png
+beach-accessories/screenshot*.mjs
+beach-accessories/package.json
+beach-accessories/package-lock.json
+beach-accessories/*.config.*
+beach-accessories/*.json
+beach-accessories/*.md
+beach-accessories/public/asset/
+beach-accessories/public/*.svg
+
+/asset/
+/background.png
+/phông chữ.jpeg
+Link shopee.docx
+CLAUDE.md
+DESIGN.md
+SKILL.md

@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Girl | Phụ Kiện Biển</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Corinthia:wght@400;700&family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Design Tokens ── */
+    :root {
+      --color-bg:       #EDD7FF;
+      --color-border-1: #326055;
+      --color-border-2: #855119;
+      --color-text:     #000000;
+      --color-dark:     #8D3B44;
+      --color-ocean:    #0099CC;
+      --color-accent:   #F0FFA4;
+      --font-script:    'Pinyon Script', 'Corinthia', cursive;
+      --font-serif:     'Libre Baskerville', 'Times New Roman', serif;
+      --font-sans:      'Inter', system-ui, sans-serif;
+      --radius-sm:      7.19px;
+      --radius-md:      53.925px;
+      --ease-brand:     cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    /* ── Calligraphic Script (Peristiwa-style) ── */
+    .brand-script {
+      font-family: var(--font-script);
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      min-height: 100dvh;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; background: none; border: none; font: inherit; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--color-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--color-border-1); border-radius: var(--radius-md); }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border-1);
+    }
+    .navbar-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 24px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .navbar-logo {
+      font-family: var(--font-script);
+      font-size: 2rem; font-weight: 400;
+      letter-spacing: 0.01em;
+      line-height: 1;
+      background: linear-gradient(108deg, #CF5872 0%, #9898CC 52%, #5A94CC 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      -webkit-text-stroke: 0.8px rgba(255,255,255,0.72);
+      filter: drop-shadow(0 0 8px rgba(200,128,150,0.22));
+    }
+    .navbar-links { display: flex; gap: 32px; }
+    .navbar-links a {
+      font-size: 0.875rem; font-weight: 500;
+      transition: opacity 0.3s;
+    }
+    .navbar-links a:hover { opacity: 0.5; }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; padding: 8px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--color-text);
+      transition: transform 0.35s var(--ease-brand), opacity 0.35s;
+    }
+    .mobile-menu {
+      display: none; max-height: 0; overflow: hidden;
+      transition: max-height 0.5s var(--ease-brand);
+      border-top: 1px solid var(--color-border-1);
+    }
+    .mobile-menu.open { max-height: 400px; }
+    .mobile-menu nav {
+      padding: 16px 24px 24px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .mobile-menu a { font-size: 0.9375rem; font-weight: 500; padding: 8px 0; }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative; width: 100%;
+      height: 100dvh; min-height: 500px;
+      overflow: hidden;
+    }
+    .hero-slide {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 0.75s var(--ease-brand);
+      z-index: 0;
+    }
+    .hero-slide.active { opacity: 1; z-index: 1; }
+    .hero-slide img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 2;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.48) 100%);
+    }
+    .hero-content {
+      position: absolute; inset: 0; z-index: 3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; gap: 18px; padding: 0 24px;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    /* ── Hero Title Wrap — anchor for SVG decorations ── */
+    .hero-title-wrap {
+      position: relative;
+      font-size: clamp(4rem, 13vw, 10rem); /* em anchor so decorations scale with title */
+    }
+
+    .hero-title {
+      font-family: var(--font-script);
+      font-size: clamp(4rem, 13vw, 10rem);
+      font-weight: 400;
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      /* Gradient matching background.png: rose → pale lavender → sky blue */
+      background: linear-gradient(108deg,
+        #FF8FA6 0%, #FFBCCC 22%, #F0E0FF 46%, #A4D4F4 70%, #6EC0F4 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      /* Thin white outline — background.png sketch/marker style */
+      -webkit-text-stroke: 2px rgba(255,255,255,0.88);
+      /* Depth shadow + soft halo */
+      filter:
+        drop-shadow(5px 6px 0 rgba(0,15,55,0.32))
+        drop-shadow(0   0  30px rgba(210,148,168,0.28));
+    }
+
+    /* ── Background.png–style SVG decorations ── */
+    .graffiti-deco {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+      overflow: visible;
+    }
+    /* Ringed star — top-left, pink */
+    .gd-1 {
+      width: 0.48em; height: 0.48em;
+      top: -0.46em; left: 2%;
+      animation: gd-orbit 4.2s ease-in-out infinite alternate;
+      animation-delay: 0s;
+    }
+    /* Wave gradient underline — spans full text width */
+    .gd-2 {
+      width: 100%; height: auto;
+      left: 0; bottom: -0.18em;
+      animation: gd-pulse 3.8s ease-in-out infinite alternate;
+      animation-delay: 1.2s;
+    }
+    /* Dotted orbit ring — top-right, blue */
+    .gd-3 {
+      width: 0.36em; height: 0.36em;
+      top: -0.32em; right: 3%;
+      animation: gd-orbit 5s ease-in-out infinite alternate;
+      animation-delay: 0.6s;
+    }
+    /* Outline star — bottom-left, blue */
+    .gd-4 {
+      width: 0.28em; height: 0.28em;
+      bottom: 0.06em; left: 7%;
+      animation: gd-orbit 3.9s ease-in-out infinite alternate;
+      animation-delay: 1.9s;
+    }
+    /* Small wave + end-dots — top, pink */
+    .gd-5 {
+      width: 0.52em; height: 0.16em;
+      top: -0.24em; right: 18%;
+      animation: gd-pulse 4.4s ease-in-out infinite alternate;
+      animation-delay: 0.35s;
+      opacity: 0.78;
+    }
+    @keyframes gd-orbit {
+      from { transform: translateY(0)   rotate(0deg);  opacity: 0.68; }
+      to   { transform: translateY(-6px) rotate(20deg); opacity: 1;   }
+    }
+    @keyframes gd-pulse {
+      from { transform: scaleX(0.94); opacity: 0.5; }
+      to   { transform: scaleX(1.05); opacity: 0.95; }
+    }
+    .hero-sub {
+      font-size: 1rem; color: rgba(255,255,255,0.85);
+      max-width: 360px; line-height: 1.6;
+    }
+    .hero-cta {
+      display: inline-block;
+      margin-top: 8px; padding: 12px 32px;
+      font-size: 0.8125rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      background: var(--color-accent); color: var(--color-text);
+      border-radius: var(--radius-md);
+      transition: transform 0.35s var(--ease-brand);
+    }
+    .hero-cta:hover { transform: scale(1.05); }
+    .hero-dots {
+      position: absolute; bottom: 32px; left: 0; right: 0; z-index: 3;
+      display: flex; justify-content: center; gap: 8px;
+    }
+    .hero-dot {
+      height: 8px; border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.45);
+      border: none; cursor: pointer;
+      transition: all 0.5s var(--ease-brand);
+      width: 8px;
+    }
+    .hero-dot.active { width: 24px; background: var(--color-accent); }
+
+    /* ── Section header ── */
+    .section-eyebrow {
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--color-border-1); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700; color: var(--color-text);
+      margin-bottom: 48px;
+    }
+
+    /* ── Category Grid ── */
+    .category-section { max-width: 1280px; margin: 0 auto; padding: 96px 24px; }
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .cat-card {
+      position: relative; overflow: hidden;
+      border-radius: var(--radius-sm);
+      aspect-ratio: 3/4;
+      display: block;
+    }
+    .cat-card img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transition: transform 0.75s var(--ease-brand);
+    }
+    .cat-card:hover img { transform: scale(1.08); }
+    .cat-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.08) 55%, transparent 100%);
+    }
+    .cat-card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; }
+    .cat-card-name {
+      font-family: var(--font-serif);
+      font-size: 1.0625rem; font-weight: 700; color: #fff;
+    }
+    .cat-card-count { font-size: 0.75rem; color: var(--color-accent); margin-top: 4px; }
+
+    /* ── Featured Products ── */
+    .featured-section {
+      background: var(--color-bg);
+      padding: 96px 24px;
+    }
+    .featured-inner { max-width: 1280px; margin: 0 auto; }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .prod-card { display: block; }
+    .prod-img-wrap {
+      position: relative; overflow: hidden;
+      border-radius: var(--radius-sm);
+      aspect-ratio: 3/4;
+    }
+    .prod-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transition: transform 0.75s var(--ease-brand);
+    }
+    .prod-card:hover .prod-img-wrap img { transform: scale(1.08); }
+    .prod-hover {
+      position: absolute; inset: 0;
+      background: rgba(141,59,68,0.12);
+      opacity: 0; display: flex; align-items: flex-end; padding: 16px;
+      transition: opacity 0.4s;
+    }
+    .prod-card:hover .prod-hover { opacity: 1; }
+    .prod-hover-badge {
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 6px 14px;
+      background: var(--color-accent); color: var(--color-text);
+      border-radius: var(--radius-md);
+    }
+    .prod-name { font-size: 0.875rem; font-weight: 500; margin-top: 12px; }
+    .view-all-wrap { display: flex; justify-content: center; margin-top: 48px; }
+    .view-all-btn {
+      display: inline-block; padding: 12px 32px;
+      font-size: 0.8125rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      border: 2px solid var(--color-text); color: var(--color-text);
+      border-radius: var(--radius-md);
+      transition: transform 0.3s var(--ease-brand);
+    }
+    .view-all-btn:hover { transform: scale(1.04); }
+
+    /* ── Lifestyle ── */
+    .lifestyle-section { background: var(--color-dark); padding: 96px 24px; }
+    .lifestyle-inner { max-width: 1280px; margin: 0 auto; }
+    .lifestyle-section .section-eyebrow { color: var(--color-accent); }
+    .lifestyle-section .section-title { color: var(--color-bg); }
+    .lifestyle-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .lifestyle-img {
+      position: relative; overflow: hidden;
+      border-radius: var(--radius-sm);
+    }
+    .lifestyle-img:nth-child(odd)  { aspect-ratio: 3/4; align-self: start; }
+    .lifestyle-img:nth-child(even) { aspect-ratio: 3/5; align-self: end; }
+    .lifestyle-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transition: transform 0.75s var(--ease-brand);
+    }
+    .lifestyle-img:hover img { transform: scale(1.05); }
+
+    /* ── Footer ── */
+    footer { background: var(--color-dark); margin-top: 0; }
+    .footer-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 64px 24px;
+      display: grid; grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .footer-brand-name {
+      font-family: var(--font-script);
+      font-size: 2.75rem; font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      background: linear-gradient(108deg, #FF98B4 0%, #E8CCFF 46%, #88CCF4 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.62);
+      filter: drop-shadow(0 0 18px rgba(220,158,178,0.42));
+    }
+    .footer-brand-desc {
+      font-size: 0.875rem; line-height: 1.7;
+      color: var(--color-bg); opacity: 0.75;
+      margin-top: 12px; max-width: 260px;
+    }
+    .footer-col-title {
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.25em;
+      color: var(--color-accent); margin-bottom: 16px;
+    }
+    .footer-col-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-col-links a {
+      font-size: 0.875rem; color: var(--color-bg);
+      opacity: 0.8; transition: opacity 0.3s;
+    }
+    .footer-col-links a:hover { opacity: 0.4; }
+    .footer-bottom {
+      border-top: 1px solid var(--color-border-1);
+      padding: 16px 24px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--color-bg); opacity: 0.4;
+    }
+
+    /* ── Category Page ── */
+    .page { display: none; }
+    .page.active { display: block; }
+    .cat-page-inner { max-width: 1280px; margin: 0 auto; padding: 64px 24px; }
+    .cat-page-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.875rem; font-weight: 500;
+      margin-bottom: 32px; opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+    .cat-page-back:hover { opacity: 1; }
+    .cat-page-title {
+      font-family: var(--font-script);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 400; margin-bottom: 8px;
+      line-height: 1;
+      background: linear-gradient(108deg, #CF5872 0%, #B0A0DC 46%, #5898CC 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255,255,255,0.88);
+      filter:
+        drop-shadow(4px 4px 0 rgba(0,14,50,0.26))
+        drop-shadow(0   0  20px rgba(200,138,160,0.22));
+    }
+    .cat-page-count { font-size: 0.875rem; opacity: 0.4; margin-bottom: 48px; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    /* ── Modal ── */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.72);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s var(--ease-brand);
+      display: flex; align-items: flex-end; justify-content: center;
+      padding: 0;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+    .modal-panel {
+      position: relative; width: 100%;
+      max-height: 92dvh; overflow: hidden;
+      background: var(--color-bg);
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      display: flex; flex-direction: column;
+      transform: translateY(40px) scale(0.97);
+      transition: transform 0.35s var(--ease-brand), opacity 0.35s var(--ease-brand);
+      opacity: 0;
+    }
+    .modal-backdrop.open .modal-panel {
+      transform: translateY(0) scale(1); opacity: 1;
+    }
+    .modal-body { display: flex; flex-direction: column; overflow-y: auto; }
+    .modal-img-wrap {
+      position: relative; width: 100%;
+      aspect-ratio: 1/1; flex-shrink: 0;
+    }
+    .modal-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transition: opacity 0.4s;
+    }
+    .modal-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(237,215,255,0.85);
+      border-radius: var(--radius-md);
+      transition: opacity 0.3s; z-index: 5;
+    }
+    .modal-arrow:hover { opacity: 0.6; }
+    .modal-arrow.prev { left: 12px; }
+    .modal-arrow.next { right: 12px; }
+    .modal-info { padding: 20px 20px 28px; }
+    .modal-eyebrow {
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.2em;
+      color: var(--color-border-1); margin-bottom: 6px;
+    }
+    .modal-title {
+      font-family: var(--font-script);
+      font-size: 2.25rem; font-weight: 400;
+      line-height: 1.1; margin-bottom: 12px;
+      background: linear-gradient(108deg, #CF5872 0%, #9090CC 50%, #5090CC 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.72);
+    }
+    .modal-desc { font-size: 0.875rem; opacity: 0.65; line-height: 1.6; margin-bottom: 20px; }
+    .modal-ctas { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .btn-shopee, .btn-tiktok {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px; font-size: 0.8125rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      border-radius: var(--radius-md);
+      transition: opacity 0.3s, transform 0.2s;
+    }
+    .btn-shopee:hover, .btn-tiktok:hover { opacity: 0.82; }
+    .btn-shopee:active, .btn-tiktok:active { transform: scale(0.97); }
+    /* Shopee — cam đặc trưng */
+    .btn-shopee { background: #EE4D2D; color: #fff; }
+    /* TikTok Shop — đen đặc trưng với gradient accent */
+    .btn-tiktok { background: #010101; color: #fff; }
+    .modal-thumbs {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      padding-top: 16px;
+      border-top: 1px solid var(--color-border-1);
+    }
+    .modal-thumb {
+      width: 52px; height: 52px; flex-shrink: 0;
+      border-radius: var(--radius-sm); overflow: hidden;
+      opacity: 0.4; outline: none;
+      transition: opacity 0.3s, outline 0.3s;
+      border: none; padding: 0;
+    }
+    .modal-thumb.active { opacity: 1; outline: 2px solid var(--color-border-1); outline-offset: 2px; }
+    .modal-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .modal-close {
+      position: absolute; top: 12px; right: 12px; z-index: 10;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--color-text); color: var(--color-bg);
+      border-radius: var(--radius-md);
+      transition: opacity 0.3s;
+    }
+    .modal-close:hover { opacity: 0.6; }
+
+    /* ── Responsive ── */
+    @media (min-width: 768px) {
+      .category-grid { grid-template-columns: repeat(3, 1fr); }
+      .product-grid { grid-template-columns: repeat(3, 1fr); }
+      .lifestyle-grid { grid-template-columns: repeat(4, 1fr); }
+      .footer-inner { grid-template-columns: repeat(3, 1fr); }
+      .products-grid { grid-template-columns: repeat(3, 1fr); }
+      .hamburger { display: none !important; }
+      .mobile-menu { display: none !important; }
+      .modal-panel {
+        border-radius: var(--radius-sm);
+        max-width: 860px; max-height: 85dvh;
+        flex-direction: row;
+      }
+      .modal-body { flex-direction: row; overflow-y: unset; flex: 1; }
+      .modal-img-wrap { width: 55%; aspect-ratio: 3/4; flex-shrink: 0; }
+      .modal-info { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+      .modal-ctas { margin-top: auto; }
+      .modal-backdrop { align-items: center; padding: 24px; }
+    }
+    @media (max-width: 767px) {
+      .navbar-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: block; }
+    }
+
+    /* ════════════════════════════════════
+       BACKGROUND LAYER
+    ════════════════════════════════════ */
+    #bg-layer {
+      position: fixed; inset: 0; z-index: -1; overflow: hidden;
+    }
+    #bg-layer img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      /* Giữ màu sắc tươi — không filter tối */
+    }
+
+    /* Body trong suốt hoàn toàn — phông gradient hiện ra trực tiếp */
+    body { background: transparent !important; }
+
+    /* Navbar: frosted glass mờ */
+    .navbar {
+      background: rgba(237,215,255,0.55) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(1.6);
+      backdrop-filter: blur(20px) saturate(1.6);
+      border-bottom-color: rgba(50,96,85,0.35) !important;
+    }
+
+    /* Sections product: trong suốt để phông background.png làm phông sản phẩm */
+    .category-section  { background: transparent !important; }
+    .featured-section  { background: transparent !important; }
+
+    /* Section title text — tăng contrast trên gradient sáng */
+    .category-section .section-eyebrow,
+    .featured-section .section-eyebrow { color: #326055; }
+    .category-section .section-title,
+    .featured-section .section-title   { color: #000; text-shadow: 0 1px 12px rgba(237,215,255,0.7); }
+
+    /* Product card: nền mờ nhẹ phía sau tên sản phẩm */
+    .bento-card-info {
+      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+    }
+    .prod-name {
+      background: rgba(237,215,255,0.75);
+      display: inline-block; padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      backdrop-filter: blur(6px);
+    }
+
+    /* Lifestyle section + footer giữ nguyên màu đậm */
+    .lifestyle-section { background: rgba(141,59,68,0.92) !important; }
+    footer              { background: rgba(141,59,68,0.96) !important; }
+
+    /* ════════════════════════════════════
+       CURSOR PARALLAX
+    ════════════════════════════════════ */
+    .bento-card,
+    .prod-img-wrap,
+    .cat-page .prod-img-wrap {
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    /* Parallax target image gets faster transition on move, slow on leave */
+    .parallax-img {
+      transition: transform 0.08s linear !important;
+    }
+    .parallax-img.leaving {
+      transition: transform 0.75s cubic-bezier(0.215, 0.61, 0.355, 1) !important;
+    }
+
+    /* ════════════════════════════════════
+       GROUP 4 — ADVANCED FEATURES
+    ════════════════════════════════════ */
+
+    /* ── 1. Marquee Ticker ── */
+    .marquee-section {
+      overflow: hidden;
+      background: var(--color-dark);
+      padding: 14px 0;
+      border-top: 1px solid rgba(50,96,85,0.4);
+      border-bottom: 1px solid rgba(50,96,85,0.4);
+    }
+    .marquee-wrapper { display: flex; }
+    .marquee-track {
+      display: flex; align-items: center; gap: 0;
+      white-space: nowrap; will-change: transform;
+      animation: marquee 28s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 20px;
+      padding: 0 20px;
+      font-family: var(--font-serif);
+      font-size: 0.8125rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    .marquee-dot {
+      display: inline-block; width: 5px; height: 5px;
+      border-radius: 50%; background: var(--color-border-1);
+      flex-shrink: 0;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── 2. Bento Grid ── */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .bento-card {
+      position: relative; overflow: hidden;
+      border-radius: var(--radius-sm);
+      aspect-ratio: 3/4;
+      display: block;
+      cursor: pointer;
+    }
+    .bento-card img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transition: transform 0.75s var(--ease-brand),
+                  filter 0.5s var(--ease-brand);
+    }
+    .bento-card:hover img {
+      transform: scale(1.07);
+      filter: brightness(1.05);
+    }
+    .bento-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.05) 55%, transparent 100%);
+    }
+    .bento-card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 18px 20px; }
+    .bento-card-name {
+      font-family: var(--font-serif);
+      font-size: 1rem; font-weight: 700; color: #fff;
+      line-height: 1.2;
+    }
+    .bento-card-count {
+      font-size: 0.7rem; color: var(--color-accent);
+      margin-top: 5px; letter-spacing: 0.08em;
+    }
+    /* Desktop bento layout */
+    @media (min-width: 768px) {
+      .bento-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 420px 300px;
+        gap: 12px;
+      }
+      .bento-card { aspect-ratio: unset; }
+      /* Hero card — tall left, spans col 1, row 1+2 */
+      .bento-card:nth-child(1) {
+        grid-column: 1 / 2; grid-row: 1 / 3;
+      }
+      /* Top-middle */
+      .bento-card:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; }
+      /* Top-right */
+      .bento-card:nth-child(3) { grid-column: 3 / 4; grid-row: 1 / 2; }
+      /* Bottom-middle */
+      .bento-card:nth-child(4) { grid-column: 2 / 3; grid-row: 2 / 3; }
+      /* Bottom-right */
+      .bento-card:nth-child(5) { grid-column: 3 / 4; grid-row: 2 / 3; }
+      /* Full-width bottom strip for 6th */
+      .bento-card:nth-child(6) {
+        grid-column: 1 / 4; grid-row: 3 / 4;
+        aspect-ratio: unset; height: 220px;
+      }
+      .bento-card:nth-child(6) .bento-card-name { font-size: 1.25rem; }
+    }
+
+    /* ── 3. Color-shift ── */
+    body {
+      transition: background-color 0.75s var(--ease-brand);
+    }
+    .navbar {
+      transition: background-color 0.75s var(--ease-brand),
+                  border-color 0.4s;
+    }
+    /* Dark state — when lifestyle section is in view */
+    body.shifted { background-color: #1a0e10; }
+    body.shifted .navbar { background-color: #1a0e10; }
+    body.shifted ::-webkit-scrollbar-track { background: #1a0e10; }
+
+    /* ── 4. Typography Reveal ── */
+    .reveal-title {
+      overflow: hidden;
+    }
+    .reveal-char {
+      display: inline-block;
+      transform: translateY(105%) rotate(2deg);
+      opacity: 0;
+      transition: transform 0.6s var(--ease-brand),
+                  opacity 0.45s var(--ease-brand);
+    }
+    .reveal-title.revealed .reveal-char {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+
+    /* Scroll-reveal for cards */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.7s var(--ease-brand),
+                  transform 0.7s var(--ease-brand);
+    }
+    .scroll-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     FIXED BACKGROUND
+══════════════════════════════════ -->
+<div id="bg-layer" aria-hidden="true">
+  <img src="beach-accessories/public/images/background.png" alt="" />
+</div>
+
+<!-- ══════════════════════════════════
+     NAVBAR
+══════════════════════════════════ -->
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="#" class="navbar-logo brand-script" onclick="showPage('home')">Daily Girl</a>
+    <nav class="navbar-links">
+      <a href="#" onclick="showCategoryPage('khuyen-tai','Khuyên Tai',earrings)">Khuyên Tai</a>
+      <a href="#" onclick="showCategoryPage('vong-co','Vòng Cổ',necklaces)">Vòng Cổ</a>
+      <a href="#" onclick="showCategoryPage('vong-tay','Vòng Tay',bracelets)">Vòng Tay</a>
+      <a href="#" onclick="showCategoryPage('vong-chan','Vòng Chân',ankleBracelets)">Vòng Chân</a>
+      <a href="#" onclick="showCategoryPage('vong-bung','Vòng Bụng',bellyChains)">Vòng Bụng</a>
+      <a href="#" onclick="showCategoryPage('kep-toc','Kẹp Tóc &amp; Phụ Kiện Tóc',hairClips)">Kẹp Tóc &amp; Phụ Kiện Tóc</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+      <span id="bar1"></span>
+      <span id="bar2"></span>
+      <span id="bar3"></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <nav>
+      <a href="#" onclick="showCategoryPage('khuyen-tai','Khuyên Tai',earrings);toggleMenu()">Khuyên Tai</a>
+      <a href="#" onclick="showCategoryPage('vong-co','Vòng Cổ',necklaces);toggleMenu()">Vòng Cổ</a>
+      <a href="#" onclick="showCategoryPage('vong-tay','Vòng Tay',bracelets);toggleMenu()">Vòng Tay</a>
+      <a href="#" onclick="showCategoryPage('vong-chan','Vòng Chân',ankleBracelets);toggleMenu()">Vòng Chân</a>
+      <a href="#" onclick="showCategoryPage('vong-bung','Vòng Bụng',bellyChains);toggleMenu()">Vòng Bụng</a>
+      <a href="#" onclick="showCategoryPage('kep-toc','Kẹp Tóc &amp; Phụ Kiện Tóc',hairClips);toggleMenu()">Kẹp Tóc &amp; Phụ Kiện Tóc</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════
+     HOME PAGE
+══════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-slide active" id="slide-0">
+      <img src="beach-accessories/public/images/lifestyle/hero.jpeg" alt="Cô gái trên bãi biển lúc hoàng hôn" />
+    </div>
+    <div class="hero-slide" id="slide-1">
+      <img src="beach-accessories/public/images/lifestyle/day2.jpeg" alt="Phong cách biển ngày 2" />
+    </div>
+    <div class="hero-slide" id="slide-2">
+      <img src="beach-accessories/public/images/lifestyle/day3.jpeg" alt="Phong cách biển ngày 3" />
+    </div>
+    <div class="hero-slide" id="slide-3">
+      <img src="beach-accessories/public/images/lifestyle/day4.jpeg" alt="Phong cách biển ngày 4" />
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Phụ Kiện Biển</p>
+      <div class="hero-title-wrap">
+
+        <!-- ① Ringed star — top-left, rose pink (matches background.png orbit-stars) -->
+        <svg class="graffiti-deco gd-1" viewBox="0 0 50 50" fill="none" aria-hidden="true">
+          <circle cx="25" cy="25" r="22" stroke="#E87890" stroke-width="1.5" stroke-dasharray="3 2.5"/>
+          <path d="M25 5 L28.5 16 L40 16 L31 23 L34.5 34 L25 27.5 L15.5 34 L19 23 L10 16 L21.5 16 Z"
+                stroke="#E87890" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+
+        <!-- ② Wave underline — gradient pink→blue (matches swoosh marks in background.png) -->
+        <svg class="graffiti-deco gd-2" viewBox="0 0 100 14" fill="none" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#E87890" stop-opacity="0"/>
+              <stop offset="12%"  stop-color="#E87890"/>
+              <stop offset="50%"  stop-color="#F0E0FF"/>
+              <stop offset="88%"  stop-color="#7AAAC4"/>
+              <stop offset="100%" stop-color="#7AAAC4" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M1 7 C12 1, 23 13, 34 7 C45 1, 56 13, 67 7 C78 1, 89 13, 99 7"
+                stroke="url(#waveGrad)" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+
+        <!-- ③ Dotted orbit ring — top-right, slate blue -->
+        <svg class="graffiti-deco gd-3" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+          <circle cx="21" cy="21" r="18" stroke="#7AAAC4" stroke-width="1.4" stroke-dasharray="2.5 3"/>
+          <circle cx="21" cy="21" r="5"  stroke="#7AAAC4" stroke-width="1.5"/>
+          <circle cx="21" cy="21" r="2"  fill="#7AAAC4"/>
+        </svg>
+
+        <!-- ④ Outline star — bottom-left, slate blue -->
+        <svg class="graffiti-deco gd-4" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <path d="M16 2 L18.5 10 L27 10 L20.5 15.5 L23 23.5 L16 18.5 L9 23.5 L11.5 15.5 L5 10 L13.5 10 Z"
+                stroke="#7AAAC4" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+
+        <!-- ⑤ Small wave + terminal dots — top, rose pink -->
+        <svg class="graffiti-deco gd-5" viewBox="0 0 52 14" fill="none" aria-hidden="true">
+          <path d="M3 7 C10 1, 18 13, 26 7 C34 1, 42 13, 49 7"
+                stroke="#E87890" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="3"  cy="7" r="1.8" fill="#E87890" opacity="0.8"/>
+          <circle cx="49" cy="7" r="1.8" fill="#7AAAC4" opacity="0.8"/>
+        </svg>
+
+        <h1 class="hero-title brand-script">Daily Girl</h1>
+      </div>
+      <p class="hero-sub">Mang hơi thở đại dương vào từng món trang sức</p>
+      <a href="#categories" class="hero-cta">Khám phá</a>
+    </div>
+    <div class="hero-dots" id="heroDots"></div>
+  </section>
+
+  <!-- Marquee Ticker -->
+  <div class="marquee-section" aria-hidden="true">
+    <div class="marquee-wrapper">
+      <div class="marquee-track" id="marqueeTrack"></div>
+    </div>
+  </div>
+
+  <!-- Bento Category Grid -->
+  <section class="category-section" id="categories">
+    <p class="section-eyebrow reveal-eyebrow">Bộ sưu tập</p>
+    <h2 class="section-title reveal-title">Danh Mục Sản Phẩm</h2>
+    <div class="bento-grid" id="categoryGrid"></div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="featured-section">
+    <div class="featured-inner">
+      <p class="section-eyebrow reveal-eyebrow">Nổi bật</p>
+      <h2 class="section-title reveal-title">Sản Phẩm Nổi Bật</h2>
+      <div class="product-grid" id="featuredGrid"></div>
+      <div class="view-all-wrap">
+        <a href="#" class="view-all-btn" onclick="showCategoryPage('khuyen-tai','Khuyên Tai',earrings)">Xem tất cả</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lifestyle Banner -->
+  <section class="lifestyle-section" id="lifestyleSection">
+    <div class="lifestyle-inner">
+      <p class="section-eyebrow reveal-eyebrow">Phong cách sống</p>
+      <h2 class="section-title reveal-title" style="color:var(--color-bg)">Hơi Thở Đại Dương</h2>
+      <div class="lifestyle-grid" id="lifestyleGrid"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand-name">Daily Girl</div>
+        <p class="footer-brand-desc">Phụ kiện biển handcrafted — mang hơi thở đại dương vào từng món trang sức.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Danh mục</div>
+        <div class="footer-col-links">
+          <a href="#" onclick="showCategoryPage('khuyen-tai','Khuyên Tai',earrings)">Khuyên Tai</a>
+          <a href="#" onclick="showCategoryPage('vong-co','Vòng Cổ',necklaces)">Vòng Cổ</a>
+          <a href="#" onclick="showCategoryPage('vong-tay','Vòng Tay',bracelets)">Vòng Tay</a>
+          <a href="#" onclick="showCategoryPage('vong-chan','Vòng Chân',ankleBracelets)">Vòng Chân</a>
+          <a href="#" onclick="showCategoryPage('vong-bung','Vòng Bụng',bellyChains)">Vòng Bụng</a>
+          <a href="#" onclick="showCategoryPage('kep-toc','Kẹp Tóc & Phụ Kiện Tóc',hairClips)">Kẹp Tóc</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Liên hệ</div>
+        <div class="footer-col-links">
+          <a href="https://shopee.vn/dailygirl.vn?categoryId=100009&amp;entryPoint=ShopByPDP&amp;itemId=53611077061&amp;gidzl=O4fY3ElRs4DcKM0FuCJSG6zJOWl_aOz49GCn1_sUtKGcNZPR_fcCGY44D0-iaefC909W3sE-f8bxxTtQGm" target="_blank" rel="noopener">Shopee</a>
+          <a href="https://www.tiktok.com/shop" target="_blank" rel="noopener">TikTok Shop</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025 Daily Girl. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════
+     CATEGORY PAGE
+══════════════════════════════════ -->
+<div id="page-category" class="page">
+  <div class="cat-page-inner">
+    <a href="#" class="cat-page-back" onclick="showPage('home')">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Quay lại
+    </a>
+    <p class="section-eyebrow">Danh mục</p>
+    <h1 class="cat-page-title" id="catPageTitle">—</h1>
+    <p class="cat-page-count" id="catPageCount"></p>
+    <div class="products-grid" id="catProductsGrid"></div>
+  </div>
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand-name">Daily Girl</div>
+        <p class="footer-brand-desc">Phụ kiện biển handcrafted — mang hơi thở đại dương vào từng món trang sức.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Danh mục</div>
+        <div class="footer-col-links">
+          <a href="#" onclick="showCategoryPage('khuyen-tai','Khuyên Tai',earrings)">Khuyên Tai</a>
+          <a href="#" onclick="showCategoryPage('vong-co','Vòng Cổ',necklaces)">Vòng Cổ</a>
+          <a href="#" onclick="showCategoryPage('vong-tay','Vòng Tay',bracelets)">Vòng Tay</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Liên hệ</div>
+        <div class="footer-col-links">
+          <a href="https://shopee.vn/dailygirl.vn?categoryId=100009&amp;entryPoint=ShopByPDP&amp;itemId=53611077061&amp;gidzl=O4fY3ElRs4DcKM0FuCJSG6zJOWl_aOz49GCn1_sUtKGcNZPR_fcCGY44D0-iaefC909W3sE-f8bxxTtQGm" target="_blank" rel="noopener">Shopee</a>
+          <a href="https://www.tiktok.com/shop" target="_blank" rel="noopener">TikTok Shop</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025 Daily Girl. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════
+     PRODUCT MODAL
+══════════════════════════════════ -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="handleBackdropClick(event)">
+  <div class="modal-panel">
+    <button class="modal-close" onclick="closeModal()" aria-label="Đóng">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="modal-body">
+      <div class="modal-img-wrap">
+        <img id="modalMainImg" src="" alt="" />
+        <button class="modal-arrow prev" onclick="modalPrev()" aria-label="Ảnh trước">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M10 3L5 8l5 5" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="modal-arrow next" onclick="modalNext()" aria-label="Ảnh tiếp">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 3l5 5-5 5" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-info">
+        <p class="modal-eyebrow">Phụ kiện biển</p>
+        <h2 class="modal-title" id="modalTitle">—</h2>
+        <p class="modal-desc">Đặt hàng trực tiếp qua Shopee hoặc TikTok Shop — giao hàng toàn quốc, thanh toán an toàn.</p>
+        <div class="modal-ctas">
+          <a href="https://shopee.vn/dailygirl.vn?categoryId=100009&amp;entryPoint=ShopByPDP&amp;itemId=53611077061&amp;gidzl=O4fY3ElRs4DcKM0FuCJSG6zJOWl_aOz49GCn1_sUtKGcNZPR_fcCGY44D0-iaefC909W3sE-f8bxxTtQGm" target="_blank" rel="noopener" class="btn-shopee">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M20.6 5H3.4A1.4 1.4 0 0 0 2 6.4V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6.4A1.4 1.4 0 0 0 20.6 5zM12 3a2 2 0 0 1 2 2H10a2 2 0 0 1 2-2zm6 16H6V9h12v10zm-6-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+            </svg>
+            Mua trên Shopee
+          </a>
+          <a href="https://www.tiktok.com/shop" target="_blank" rel="noopener" class="btn-tiktok">
+            <svg width="15" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.27 8.27 0 0 0 4.83 1.56V6.79a4.85 4.85 0 0 1-1.06-.1z"/>
+            </svg>
+            TikTok Shop
+          </a>
+        </div>
+        <div class="modal-thumbs" id="modalThumbs"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Data ──
+  const img = (folder, n, ext = '.jpg') =>
+    Array.from({length: n}, (_, i) => `beach-accessories/public/images/products/${folder}/${i+1}${ext}`);
+
+  const earrings = [
+    { id: 'khuyen-tai-ma-vang', name: 'Khuyên Tai Biển Mạ Vàng',    cover: img('earrings/gold',9)[0],    images: img('earrings/gold',9) },
+    { id: 'khuyen-tai-sieu-xinh', name: 'Khuyên Tai Biển Siêu Xinh', cover: img('earrings/cute',14)[0],  images: img('earrings/cute',14) },
+  ];
+  const necklaces = [
+    { id:'vong-co-m1', name:'Vòng Cổ Mẫu 1', cover:img('necklace/m1',6)[0], images:img('necklace/m1',6) },
+    { id:'vong-co-m2', name:'Vòng Cổ Mẫu 2', cover:img('necklace/m2',4)[0], images:img('necklace/m2',4) },
+    { id:'vong-co-m3', name:'Vòng Cổ Mẫu 3', cover:img('necklace/m3',10)[0],images:img('necklace/m3',10)},
+    { id:'vong-co-m4', name:'Vòng Cổ Mẫu 4', cover:img('necklace/m4',7)[0], images:img('necklace/m4',7) },
+    { id:'vong-co-m5', name:'Vòng Cổ Mẫu 5', cover:img('necklace/m5',4)[0], images:img('necklace/m5',4) },
+    { id:'vong-co-m6', name:'Vòng Cổ Mẫu 6', cover:img('necklace/m6',5)[0], images:img('necklace/m6',5) },
+    { id:'vong-co-m8', name:'Vòng Cổ Mẫu 8', cover:img('necklace/m8',2)[0], images:img('necklace/m8',2) },
+  ];
+  const bracelets = [
+    { id:'vong-tay-m1', name:'Vòng Tay Mẫu 1', cover:img('bracelet/m1',13)[0], images:img('bracelet/m1',13) },
+    { id:'vong-tay-m2', name:'Vòng Tay Mẫu 2', cover:img('bracelet/m2',5)[0],  images:img('bracelet/m2',5) },
+    { id:'vong-tay-m3', name:'Vòng Tay Mẫu 3', cover:img('bracelet/m3',2)[0],  images:img('bracelet/m3',2) },
+    { id:'vong-tay-m4', name:'Vòng Tay Mẫu 4', cover:img('bracelet/m4',4)[0],  images:img('bracelet/m4',4) },
+    { id:'vong-tay-m5', name:'Vòng Tay Mẫu 5', cover:img('bracelet/m5',2)[0],  images:img('bracelet/m5',2) },
+  ];
+  const ankleBracelets = [
+    { id:'vong-chan', name:'Vòng Chân Biển', cover:img('ankle-bracelet',6)[0], images:img('ankle-bracelet',6) },
+  ];
+  const bellyChains = [
+    { id:'vong-bung', name:'Vòng Bụng Biển', cover:img('belly-chain',11)[0], images:img('belly-chain',11) },
+  ];
+  const hairClips = [
+    { id:'kep-toc-sao-bien', name:'Kẹp Tóc Sao Biển', cover:img('hair-clips',18)[0], images:img('hair-clips',18) },
+  ];
+
+  const allCategories = [
+    { id:'khuyen-tai', name:'Khuyên Tai',               cover:earrings[0].cover,       products:earrings },
+    { id:'vong-co',    name:'Vòng Cổ',                  cover:necklaces[0].cover,      products:necklaces },
+    { id:'vong-tay',   name:'Vòng Tay',                 cover:bracelets[0].cover,      products:bracelets },
+    { id:'vong-chan',  name:'Vòng Chân',                 cover:ankleBracelets[0].cover, products:ankleBracelets },
+    { id:'vong-bung',  name:'Vòng Bụng',                cover:bellyChains[0].cover,    products:bellyChains },
+    { id:'kep-toc',    name:'Kẹp Tóc & Phụ Kiện Tóc',  cover:hairClips[0].cover,      products:hairClips },
+  ];
+
+  const lifestyleImgs = [
+    { src:'beach-accessories/public/images/lifestyle/hero.jpeg',  alt:'Hoàng hôn bãi biển' },
+    { src:'beach-accessories/public/images/lifestyle/day2.jpeg',  alt:'Phong cách ngày 2' },
+    { src:'beach-accessories/public/images/lifestyle/day3.jpeg',  alt:'Phong cách ngày 3' },
+    { src:'beach-accessories/public/images/lifestyle/day4.jpeg',  alt:'Phong cách ngày 4' },
+  ];
+
+  // ── Hero Slideshow ──
+  let heroIdx = 0;
+  const slides = document.querySelectorAll('.hero-slide');
+  const dotsEl = document.getElementById('heroDots');
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Ảnh ${i+1}`);
+    dot.onclick = () => goSlide(i);
+    dotsEl.appendChild(dot);
+  });
+
+  function goSlide(n) {
+    slides[heroIdx].classList.remove('active');
+    document.querySelectorAll('.hero-dot')[heroIdx].classList.remove('active');
+    heroIdx = n;
+    slides[heroIdx].classList.add('active');
+    document.querySelectorAll('.hero-dot')[heroIdx].classList.add('active');
+  }
+  setInterval(() => goSlide((heroIdx + 1) % slides.length), 4000);
+
+  // ── Build Bento Category Grid ──
+  const catGrid = document.getElementById('categoryGrid');
+  allCategories.forEach((cat, idx) => {
+    const dataVar = cat.id === 'khuyen-tai' ? 'earrings'
+      : cat.id === 'vong-co' ? 'necklaces'
+      : cat.id === 'vong-tay' ? 'bracelets'
+      : cat.id === 'vong-chan' ? 'ankleBracelets'
+      : cat.id === 'vong-bung' ? 'bellyChains' : 'hairClips';
+    const el = document.createElement('a');
+    el.href = '#';
+    el.className = 'bento-card scroll-reveal';
+    el.style.transitionDelay = `${idx * 0.08}s`;
+    el.setAttribute('onclick', `showCategoryPage('${cat.id}','${cat.name}',${dataVar})`);
+    el.innerHTML = `
+      <img src="${cat.cover}" alt="${cat.name}" loading="lazy" />
+      <div class="bento-card-overlay"></div>
+      <div class="bento-card-info">
+        <div class="bento-card-name">${cat.name}</div>
+        <div class="bento-card-count">${cat.products.length} mẫu</div>
+      </div>`;
+    catGrid.appendChild(el);
+  });
+
+  // ── Build Marquee ──
+  const marqueeTrack = document.getElementById('marqueeTrack');
+  const marqueeItems = [
+    'Phụ Kiện Biển', 'Handcrafted', 'Shell & Sea',
+    'Beach Accessories', 'Vòng Cổ', 'Khuyên Tai',
+    'Vòng Tay', 'Ocean Vibes', 'Phụ Kiện Biển', 'Handcrafted',
+    'Shell & Sea', 'Beach Accessories', 'Vòng Cổ', 'Khuyên Tai',
+    'Vòng Tay', 'Ocean Vibes',
+  ];
+  // Duplicate for seamless loop
+  [...marqueeItems, ...marqueeItems].forEach((text, i) => {
+    const span = document.createElement('span');
+    span.className = 'marquee-item';
+    span.innerHTML = `${text}<span class="marquee-dot"></span>`;
+    marqueeTrack.appendChild(span);
+  });
+
+  // ── Build Featured Products ──
+  const featGrid = document.getElementById('featuredGrid');
+  const featured = allCategories.flatMap(c => c.products).slice(0, 6);
+  featured.forEach(p => {
+    const catId = p.id.includes('khuyen') ? 'khuyen-tai'
+      : p.id.includes('vong-co') ? 'vong-co'
+      : p.id.includes('vong-tay') ? 'vong-tay'
+      : p.id.includes('vong-chan') ? 'vong-chan'
+      : p.id.includes('vong-bung') ? 'vong-bung' : 'kep-toc';
+    const dataVar = catId === 'khuyen-tai' ? 'earrings' : catId === 'vong-co' ? 'necklaces'
+      : catId === 'vong-tay' ? 'bracelets' : catId === 'vong-chan' ? 'ankleBracelets'
+      : catId === 'vong-bung' ? 'bellyChains' : 'hairClips';
+    const catName = allCategories.find(c => c.id === catId)?.name || '';
+    featGrid.innerHTML += `
+      <a href="#" class="prod-card" onclick="showCategoryPage('${catId}','${catName}',${dataVar})">
+        <div class="prod-img-wrap">
+          <img src="${p.cover}" alt="${p.name}" loading="lazy" />
+          <div class="prod-hover"><span class="prod-hover-badge">Xem ngay</span></div>
+        </div>
+        <p class="prod-name">${p.name}</p>
+      </a>`;
+  });
+
+  // ── Build Lifestyle ──
+  const lgGrid = document.getElementById('lifestyleGrid');
+  lifestyleImgs.forEach(img => {
+    lgGrid.innerHTML += `
+      <div class="lifestyle-img">
+        <img src="${img.src}" alt="${img.alt}" loading="lazy" />
+      </div>`;
+  });
+
+  // ── Page navigation ──
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    return false;
+  }
+
+  function showCategoryPage(id, name, products) {
+    document.getElementById('catPageTitle').textContent = name;
+    document.getElementById('catPageCount').textContent = products.length + ' sản phẩm';
+    const grid = document.getElementById('catProductsGrid');
+    grid.innerHTML = '';
+    products.forEach(p => {
+      const btn = document.createElement('button');
+      btn.className = 'prod-card';
+      btn.style.textAlign = 'left';
+      btn.innerHTML = `
+        <div class="prod-img-wrap">
+          <img src="${p.cover}" alt="${p.name}" loading="lazy" />
+          <div class="prod-hover"><span class="prod-hover-badge">Xem ảnh</span></div>
+        </div>
+        <p class="prod-name">${p.name}</p>
+        <p style="font-size:.75rem;color:var(--color-border-1);margin-top:4px">${p.images.length} ảnh</p>`;
+      btn.onclick = () => openModal(p);
+      grid.appendChild(btn);
+    });
+    showPage('category');
+    return false;
+  }
+
+  // ── Modal ──
+  let modalImages = [], modalIdx = 0;
+
+  function openModal(product) {
+    modalImages = product.images;
+    modalIdx = 0;
+    document.getElementById('modalTitle').textContent = product.name;
+    renderModalImg();
+    renderThumbs();
+    document.getElementById('modalBackdrop').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalBackdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleBackdropClick(e) {
+    if (e.target === document.getElementById('modalBackdrop')) closeModal();
+  }
+
+  function renderModalImg() {
+    const img = document.getElementById('modalMainImg');
+    img.style.opacity = 0;
+    setTimeout(() => {
+      img.src = modalImages[modalIdx];
+      img.alt = `Ảnh ${modalIdx + 1}`;
+      img.style.opacity = 1;
+    }, 150);
+    document.querySelectorAll('.modal-thumb').forEach((t, i) => {
+      t.classList.toggle('active', i === modalIdx);
+    });
+    const arrowPrev = document.querySelector('.modal-arrow.prev');
+    const arrowNext = document.querySelector('.modal-arrow.next');
+    if (modalImages.length <= 1) {
+      arrowPrev.style.display = 'none';
+      arrowNext.style.display = 'none';
+    } else {
+      arrowPrev.style.display = '';
+      arrowNext.style.display = '';
+    }
+  }
+
+  function renderThumbs() {
+    const container = document.getElementById('modalThumbs');
+    container.innerHTML = '';
+    if (modalImages.length <= 1) return;
+    modalImages.forEach((src, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'modal-thumb' + (i === 0 ? ' active' : '');
+      btn.setAttribute('aria-label', `Xem ảnh ${i+1}`);
+      btn.innerHTML = `<img src="${src}" alt="Thumbnail ${i+1}" loading="lazy" />`;
+      btn.onclick = () => { modalIdx = i; renderModalImg(); };
+      container.appendChild(btn);
+    });
+  }
+
+  function modalPrev() { modalIdx = (modalIdx - 1 + modalImages.length) % modalImages.length; renderModalImg(); }
+  function modalNext() { modalIdx = (modalIdx + 1) % modalImages.length; renderModalImg(); }
+
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('modalBackdrop').classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowRight') modalNext();
+    if (e.key === 'ArrowLeft') modalPrev();
+  });
+
+  // ══════════════════════════════════
+  //  GROUP 4 — ADVANCED FEATURES JS
+  // ══════════════════════════════════
+
+  // ── Typography Reveal ──
+  function splitReveal(el) {
+    el.classList.add('reveal-title');
+    const html = el.innerHTML;
+    // Handle &amp; and other entities gracefully
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    const text = tmp.textContent;
+    el.innerHTML = text.split('').map((char, i) =>
+      `<span class="reveal-char" style="transition-delay:${i * 0.028}s">${char === ' ' ? '&nbsp;' : char}</span>`
+    ).join('');
+  }
+
+  document.querySelectorAll('.reveal-title').forEach(el => splitReveal(el));
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll('.reveal-title').forEach(el => revealObserver.observe(el));
+
+  // ── Scroll Reveal for Cards ──
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.scroll-reveal').forEach(el => cardObserver.observe(el));
+
+  // ── Color Shift ──
+  function hexToRgb(hex) {
+    return [
+      parseInt(hex.slice(1,3), 16),
+      parseInt(hex.slice(3,5), 16),
+      parseInt(hex.slice(5,7), 16),
+    ];
+  }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function rgbToHex(r, g, b) {
+    return '#' + [r,g,b].map(v => Math.round(v).toString(16).padStart(2,'0')).join('');
+  }
+
+  const bgFrom = hexToRgb('#EDD7FF'); // lavender
+  const bgMid  = hexToRgb('#C4A8E8'); // mid-lavender
+  const bgTo   = hexToRgb('#1a0e10'); // near-black dark red
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const maxScroll = document.body.scrollHeight - window.innerHeight;
+      const t = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+      let r, g, b;
+      if (t < 0.5) {
+        const u = t / 0.5;
+        r = lerp(bgFrom[0], bgMid[0], u);
+        g = lerp(bgFrom[1], bgMid[1], u);
+        b = lerp(bgFrom[2], bgMid[2], u);
+      } else {
+        const u = (t - 0.5) / 0.5;
+        r = lerp(bgMid[0], bgTo[0], u);
+        g = lerp(bgMid[1], bgTo[1], u);
+        b = lerp(bgMid[2], bgTo[2], u);
+      }
+      const col = rgbToHex(r, g, b);
+      document.body.style.backgroundColor = col;
+      document.querySelector('.navbar').style.backgroundColor = col;
+      ticking = false;
+    });
+  }, { passive: true });
+
+  // background.png: tĩnh, không cần cycling
+
+  // ══════════════════════════════════
+  //  CURSOR PARALLAX ON PRODUCT IMAGES
+  // ══════════════════════════════════
+  (function () {
+    const TILT_MAX  = 8;    // deg, card 3D tilt
+    const SHIFT_MAX = 18;   // px,  image shift inside card
+
+    function initParallax() {
+      // Apply to all image cards currently in DOM
+      const cards = document.querySelectorAll(
+        '.bento-card, .prod-card .prod-img-wrap, .products-grid .prod-img-wrap'
+      );
+      cards.forEach(attachParallax);
+    }
+
+    function attachParallax(card) {
+      if (card.dataset.parallax) return;        // already wired
+      card.dataset.parallax = '1';
+
+      // Determine tilt target: bento-card tilts itself; prod-img-wrap tilts parent
+      const tiltTarget = card.classList.contains('bento-card')
+        ? card
+        : card.closest('.prod-card') || card;
+
+      const img = card.querySelector('img');
+      if (!img) return;
+      img.classList.add('parallax-img');
+
+      card.addEventListener('mousemove', (e) => {
+        const r   = card.getBoundingClientRect();
+        const cx  = r.width  / 2;
+        const cy  = r.height / 2;
+        const dx  = (e.clientX - r.left - cx) / cx;   // –1…+1
+        const dy  = (e.clientY - r.top  - cy) / cy;
+
+        // 3D tilt on card
+        tiltTarget.style.transition = 'transform 0.08s linear';
+        tiltTarget.style.transform  =
+          `perspective(900px) rotateX(${-dy * TILT_MAX}deg) rotateY(${dx * TILT_MAX}deg) scale(1.02)`;
+
+        // Image parallax shift (opposite direction = depth)
+        img.classList.remove('leaving');
+        img.style.transform =
+          `scale(1.12) translate(${dx * SHIFT_MAX}px, ${dy * SHIFT_MAX}px)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        // Smooth reset
+        tiltTarget.style.transition =
+          'transform 0.75s cubic-bezier(0.215, 0.61, 0.355, 1)';
+        tiltTarget.style.transform = '';
+
+        img.classList.add('leaving');
+        img.style.transform = '';
+        setTimeout(() => img.classList.remove('leaving'), 800);
+      });
+    }
+
+    // Init on load
+    initParallax();
+
+    // Re-init when category page renders new cards (observe DOM changes)
+    const mutObs = new MutationObserver(() => initParallax());
+    mutObs.observe(document.body, { childList: true, subtree: true });
+  })();
+
+  // ── Hamburger ──
+  let menuOpen = false;
+  function toggleMenu() {
+    menuOpen = !menuOpen;
+    const menu = document.getElementById('mobileMenu');
+    const b1 = document.getElementById('bar1');
+    const b2 = document.getElementById('bar2');
+    const b3 = document.getElementById('bar3');
+    menu.classList.toggle('open', menuOpen);
+    b1.style.transform = menuOpen ? 'translateY(7px) rotate(45deg)' : '';
+    b2.style.opacity   = menuOpen ? '0' : '1';
+    b3.style.transform = menuOpen ? 'translateY(-7px) rotate(-45deg)' : '';
+  }
+</script>
+</body>
+</html>
